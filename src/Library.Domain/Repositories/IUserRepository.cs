@@ -4,7 +4,7 @@ namespace Library.Domain.Repositories
 {
     public interface IUserRepository
     {
-        Task SaveAsync(User user);
+        Task AddAsync(User user);
         Task<List<User>> GetAsync(string query);
     }
 }
