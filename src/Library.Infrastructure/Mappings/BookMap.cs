@@ -1,0 +1,39 @@
+﻿using Library.Domain.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Library.Infrastructure.Mappings
+{
+    public class BookMap : IEntityTypeConfiguration<Book>
+    {
+        public void Configure(EntityTypeBuilder<Book> builder)
+        {
+            builder
+               .ToTable("books");
+
+            builder
+                .HasKey(t => t.Id);
+
+            builder
+             .Property(_ => _.Title)
+             .IsRequired()
+             .HasColumnType("varchar(30)");
+
+            builder
+             .Property(_ => _.Author)
+             .IsRequired()
+             .HasColumnType("varchar(30)");
+
+            builder
+             .Property(_ => _.ISBN)
+             .IsRequired()
+             .HasColumnType("varchar(13)");
+
+            builder
+                .HasMany(t => t.Loans)
+                .WithOne(t => t.Book)
+                .HasForeignKey(t => t.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+}

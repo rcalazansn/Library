@@ -4,7 +4,7 @@ namespace Library.Domain.Repositories
 {
     public interface IBookRepository
     {
-        Task<int> SaveAsync(Book book);
+        Task AddAsync(Book book);
         Task<List<Book>> GetAsync(string query);
         Task<List<Book>> GetAsync();
         Task<Book?> GetByIdAsync(int id);

@@ -11,7 +11,7 @@ namespace Library.Infrastructure.Repositories
         private readonly LibraryDbContext _dbContext;
         public BookRepository(LibraryDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
         public async Task<List<Book>> GetAsync(string query)
         {
@@ -49,23 +49,15 @@ namespace Library.Infrastructure.Repositories
 
         public async Task RemoveAsync(int id)
         {
-            var livro = await _dbContext.Books.SingleOrDefaultAsync(p => p.Id == id);
+            var book = await _dbContext.Books.SingleOrDefaultAsync(p => p.Id == id);
 
-            if (livro != null)
-            {
-                _dbContext.Books.Remove(livro);
-
-                await _dbContext.SaveChangesAsync();
-            }
+            if (book != null)
+                _dbContext.Books.Remove(book);
         }
 
-        public async Task<int> SaveAsync(Book book)
+        public async Task AddAsync(Book book)
         {
             await _dbContext.Books.AddAsync(book);
-
-            await _dbContext.SaveChangesAsync();
-
-            return book.Id;
         }
     }
 }

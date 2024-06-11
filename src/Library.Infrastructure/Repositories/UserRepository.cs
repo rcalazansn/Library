@@ -10,7 +10,7 @@ namespace Library.Infrastructure.Repositories
         private readonly LibraryDbContext _dbContext;
         public UserRepository(LibraryDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
         public async Task<List<User>> GetAsync(string query)
         {
@@ -21,11 +21,9 @@ namespace Library.Infrastructure.Repositories
             return usuarios;
         }
 
-        public async Task SaveAsync(User user)
+        public async Task AddAsync(User user)
         {
             await _dbContext.Users.AddAsync(user);
-
-            await _dbContext.SaveChangesAsync();
         }
     }
 }
