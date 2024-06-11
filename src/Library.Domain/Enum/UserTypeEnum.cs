@@ -2,7 +2,7 @@
 
 namespace Library.Domain.Enum
 {
-    public enum UserTypeEnm
+    public enum UserTypeEnum
     {
         [Display(Name = "Nenhum")]
         None = 0,

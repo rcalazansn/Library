@@ -4,17 +4,17 @@ namespace Library.Domain.Models
 {
     public class User : BaseEntity
     {
-        public User(string name, string email, UserTypeEnm userTypeEnm)
+        public User(string name, string email, UserTypeEnum userTypeEnum)
         {
             Name = name;
             Email = email;
-            UserTypeEnm = userTypeEnm;
+            UserTypeEnum = userTypeEnum;
             Loans = new List<Loan> { };
         }
 
         public string Name { get; private set; }
         public string Email { get; private set; }
-        public UserTypeEnm UserTypeEnm { get; private set; }
+        public UserTypeEnum UserTypeEnum { get; private set; }
         public List<Loan> Loans { get; private set; }
     }
 }
