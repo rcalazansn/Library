@@ -4,6 +4,8 @@ using Library.Application.Queries.GetBooks;
 using Library.Application.Queries.GetBooksById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
 
 namespace Library.API.Controllers
 {
@@ -21,8 +23,11 @@ namespace Library.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> ObterPorId(int id)
+        [SwaggerResponse((int)HttpStatusCode.OK, "Request success!!")]
+        public async Task<IActionResult> GetById(int id)
         {
+            _logger.LogInformation($"{DateTime.Now} GetById");
+
             var command = new GetBooksByIdQuery(id);
 
             var book = await _mediator.Send(command);
@@ -36,8 +41,11 @@ namespace Library.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObterTodos([FromQuery] string? query = null)
+        [SwaggerResponse((int)HttpStatusCode.OK, "Request success!!")]
+        public async Task<IActionResult> GetAll([FromQuery] string? query = null)
         {
+            _logger.LogInformation($"{DateTime.Now} GetAll");
+
             var command = new GetBooksQuery(query);
 
             var books = await _mediator.Send(command);
@@ -46,16 +54,22 @@ namespace Library.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Cadastrar([FromBody] AddBookCommand command)
+        [SwaggerResponse((int)HttpStatusCode.Created, "Request success!!")]
+        public async Task<IActionResult> Created([FromBody] AddBookCommand command)
         {
+            _logger.LogInformation($"{DateTime.Now} Created");
+
             await _mediator.Send(command);
 
-            return CreatedAtAction(nameof(ObterPorId), command);
+            return CreatedAtAction(nameof(Created), command);
         }
 
         [HttpDelete("{id}")]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, "Request success!!")]
         public async Task<IActionResult> Delete(int id)
         {
+            _logger.LogInformation($"{DateTime.Now} Delete");
+
             var command = new RemoveBookCommand(id);
 
             await _mediator.Send(command);

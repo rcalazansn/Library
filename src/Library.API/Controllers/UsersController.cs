@@ -2,6 +2,8 @@
 using Library.Application.Queries.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
 
 namespace Library.API.Controllers
 {
@@ -19,16 +21,22 @@ namespace Library.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Cadastrar([FromBody] AddUserCommand command)
+        [SwaggerResponse((int)HttpStatusCode.Created, "Request success!!")]
+        public async Task<IActionResult> Create([FromBody] AddUserCommand command)
         {
+            _logger.LogInformation($"{DateTime.Now} GetAll");
+
             await _mediator.Send(command);
 
             return NoContent();
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObterTodos([FromQuery] string? query = null)
+        [SwaggerResponse((int)HttpStatusCode.OK, "Request success!!")]
+        public async Task<IActionResult> GetAll([FromQuery] string? query = null)
         {
+            _logger.LogInformation($"{DateTime.Now} GetAll");
+
             var command = new GetUsersQuery(query);
 
             var users = await _mediator.Send(command);
