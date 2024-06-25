@@ -34,11 +34,11 @@ namespace Library.Infrastructure.UnitOfWork
 
         public async Task<ValidationResult> Commit(CancellationToken cancellationToken)
         {
-            _validationResult.Errors.Clear();
+            //_validationResult.Errors.Clear();
 
-            var sucesso = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-            if (!sucesso)
+            if (!success)
                 AddError("There was an error persisting data!");
 
             return _validationResult;
