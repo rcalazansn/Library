@@ -1,7 +1,9 @@
 ﻿using Library.Domain.Models;
+using Library.Domain.Validations;
 using Library.Infrastructure.UnitOfWork;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace Library.Application.Command.AddUser
@@ -28,7 +30,20 @@ namespace Library.Application.Command.AddUser
             
             await _uow.UserRepository.AddAsync(user);
 
-            var result = _uow.Commit(cancellationToken);
+            var validator = new AddUserValidation().Validate(user);
+
+            if (validator.IsValid)
+            {
+                var result = _uow.Commit(cancellationToken);
+            }
+            else
+            {
+                foreach (var error in validator.Errors)
+                {
+                    _logger.LogWarning($"{error.ErrorMessage}");
+                }
+            }
+
 
             watch.Stop();
 

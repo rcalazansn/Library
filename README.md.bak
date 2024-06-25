@@ -6,9 +6,6 @@ DotNet
 1. dotnet dev-certs https --clean
 2. dotnet dev-certs https --trust
 
-EF Core
-1. dotnet tool install --global dotnet-ef
-
 Sql Server Docker
 1. docker run --name sqlserver -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1q2w3e4r@#$" -p 1433:1433 -d mcr.microsoft.com/mssql/server
 2. Server=localhost,1433;Database=Library;User ID=sa;Password=1q2w3e4r@#$
