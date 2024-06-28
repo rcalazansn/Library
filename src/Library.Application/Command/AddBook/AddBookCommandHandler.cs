@@ -29,7 +29,7 @@ namespace Library.Application.Command.AddBook
 
             await _uow.BookRepository.AddAsync(book);
 
-            var result = _uow.Commit(cancellationToken);
+            var result = await _uow.CommitAsync(cancellationToken);
 
             watch.Stop();
 

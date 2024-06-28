@@ -28,7 +28,7 @@ namespace Library.Application.Command.AddLoan
 
             await _uow.LoanRepository.AddAsync(loan);
 
-            var result = _uow.Commit(cancellationToken);
+            var result = await _uow.CommitAsync(cancellationToken);
 
             watch.Stop();
 

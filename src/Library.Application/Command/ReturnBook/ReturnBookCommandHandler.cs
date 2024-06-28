@@ -25,7 +25,7 @@ namespace Library.Application.Command.ReturnBook
 
             await _uow.LoanRepository.ReturnBookAsync(request.Id);
 
-            var result = _uow.Commit(cancellationToken);
+            var result = await _uow.CommitAsync(cancellationToken);
 
             watch.Stop();
 

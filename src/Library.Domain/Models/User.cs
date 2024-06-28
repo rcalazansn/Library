@@ -1,4 +1,5 @@
-﻿using Library.Domain.Enum;
+﻿using Library.Core.Domain;
+using Library.Domain.Enum;
 
 namespace Library.Domain.Models
 {

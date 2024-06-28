@@ -17,7 +17,6 @@ namespace Library.Infrastructure.Persistence
         public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Loan> Loans { get; set; }
-
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options)
             : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

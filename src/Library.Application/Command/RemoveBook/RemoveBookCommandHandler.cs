@@ -26,7 +26,7 @@ namespace Library.Application.Command.RemoveBook
 
             await _uow.BookRepository.RemoveAsync(request.Id);
 
-            var result = _uow.Commit(cancellationToken);
+            var result = await _uow.CommitAsync(cancellationToken);
 
             watch.Stop();
 

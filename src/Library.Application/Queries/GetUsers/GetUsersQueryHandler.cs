@@ -25,7 +25,8 @@ namespace Library.Application.Queries.GetUser
         {
             var watch = Stopwatch.StartNew();
 
-            var users = await _uow.UserRepository.GetAsync(request.Query);
+            var users = await _uow.UserRepository
+                .GetDataAsync(f => (f.Email == request.Query) || (f.Name == request.Query));
 
             if (!string.IsNullOrWhiteSpace(request.Query))
             {

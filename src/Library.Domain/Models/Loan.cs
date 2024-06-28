@@ -1,4 +1,6 @@
-﻿namespace Library.Domain.Models
+﻿using Library.Core.Domain;
+
+namespace Library.Domain.Models
 {
     public class Loan : BaseEntity
     {

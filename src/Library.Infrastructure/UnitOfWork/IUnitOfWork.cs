@@ -5,7 +5,7 @@ namespace Library.Infrastructure.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
-        Task<ValidationResult> Commit(CancellationToken cancellationToken);
+        Task<bool> CommitAsync(CancellationToken cancellationToken);
         IBookRepository BookRepository { get; }
         ILoanRepository LoanRepository { get; }
         IUserRepository UserRepository { get; }
