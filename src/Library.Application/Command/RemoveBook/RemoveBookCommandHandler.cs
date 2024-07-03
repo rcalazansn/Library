@@ -22,19 +22,19 @@ namespace Library.Application.Command.RemoveBook
         }
         public async Task Handle(RemoveBookCommand request, CancellationToken cancellationToken)
         {
-            var watch = Stopwatch.StartNew();
+            //var watch = Stopwatch.StartNew();
 
-            await _uow.BookRepository.RemoveAsync(request.Id);
+            //await _uow.BookRepository.RemoveAsync(request.Id);
 
-            var result = await _uow.CommitAsync(cancellationToken);
+            //var result = await _uow.CommitAsync(cancellationToken);
 
-            watch.Stop();
+            //watch.Stop();
 
-            _logger.LogDebug
-            (
-                $"{request.Id} removed record." +
-                $"ElapsedMilliseconds={watch.ElapsedMilliseconds}"
-            );
+            //_logger.LogDebug
+            //(
+            //    $"{request.Id} removed record." +
+            //    $"ElapsedMilliseconds={watch.ElapsedMilliseconds}"
+            //);
         }
     }
 }

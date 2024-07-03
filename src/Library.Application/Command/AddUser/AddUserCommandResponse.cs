@@ -1,5 +1,4 @@
 ﻿using Library.Domain.Enum;
-using MediatR;
 
 namespace Library.Application.Command.AddUser
 {

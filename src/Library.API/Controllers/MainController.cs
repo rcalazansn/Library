@@ -30,5 +30,8 @@ namespace Library.API.Controllers
                 errors = _notifier.GetNotifications().Select(n => n.Message)
             });
         }
+
+        protected string? GetUserIp()
+            => Request?.HttpContext.Connection?.RemoteIpAddress?.ToString();
     }
 }

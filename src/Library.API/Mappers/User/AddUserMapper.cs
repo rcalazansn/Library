@@ -5,13 +5,13 @@ namespace Library.API.Mappers.User
 {
     public static class AddUserMapper
     {
-        public static AddUserCommand MapToAddUserCommand(this AddUserRequestDto request)
+        public static AddUserCommand MapToAddUserCommand(this AddUserRequestDto dto)
         {
             return new AddUserCommand()
             {
-                Name = request.Name,
-                Email = request.Email,
-                UserTypeEnm = request.UserTypeEnm,
+                Name = dto.Name,
+                Email = dto.Email,
+                UserTypeEnm = dto.UserTypeEnm,
             };
         }
     }

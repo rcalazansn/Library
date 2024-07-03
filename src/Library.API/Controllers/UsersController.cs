@@ -1,5 +1,6 @@
 ﻿using Library.API.Dtos.User;
 using Library.API.Mappers.User;
+using Library.Application.Command.AddUser;
 using Library.Application.Queries.GetUser;
 using Library.Core.Notification;
 using MediatR;
@@ -29,12 +30,12 @@ namespace Library.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(UserResponseDto), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> AddUser([FromBody] AddUserRequestDto request, CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(AddUserCommandResponse), (int)HttpStatusCode.Created)]
+        public async Task<IActionResult> AddUser([FromBody] AddUserRequestDto dto, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"{DateTime.Now} - POST AddUser route has been initialized. Ip: {GetUserIp()}");
 
-            await _mediator.Send(request.MapToAddUserCommand(), cancellationToken);
+            await _mediator.Send(dto.MapToAddUserCommand(), cancellationToken);
 
             return CustomResponse(HttpStatusCode.Created);
         }
@@ -51,7 +52,5 @@ namespace Library.API.Controllers
 
             return CustomResponse(HttpStatusCode.OK, users);
         }
-
-        private string GetUserIp() => "";
     }
 }

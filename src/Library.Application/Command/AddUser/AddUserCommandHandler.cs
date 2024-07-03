@@ -34,6 +34,14 @@ namespace Library.Application.Command.AddUser
             if (!ExecuteValidation(new AddUserValidation(), user))
                 return null;
 
+            var userDb = await _uow.UserRepository.FirstAsync(_ => _.Email.Equals(user.Email));
+
+            if (userDb != null)
+            {
+                Notify("Email already registered");
+                return null;
+            }
+
             _uow.UserRepository.Add(user);
 
             var success = await _uow.CommitAsync(cancellationToken);
@@ -57,7 +65,7 @@ namespace Library.Application.Command.AddUser
                 Email = request.Email,
                 Name = request.Name,
                 UserTypeEnm = request.UserTypeEnm
-            }; ;
+            };
         }
     }
 }

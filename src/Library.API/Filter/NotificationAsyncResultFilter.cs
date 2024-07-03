@@ -41,9 +41,10 @@ namespace Library.API.Filters
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
                 var badRequestResult = (ValidationProblemDetails)result.Value;
+
                 _logger.LogWarning(GetLoggingBadRequest(badRequestResult));
 
-                var content = "test bad request";//JsonConvert.SerializeObject(GetBadRequestResponse(badRequestResult), _jsonSettings);
+                var content = JsonSerializer.Serialize(GetBadRequestResponse(badRequestResult));
                 await context.HttpContext.Response.WriteAsync(content);
 
                 return;
@@ -54,8 +55,7 @@ namespace Library.API.Filters
                 context.HttpContext.Response.StatusCode = (int)result.StatusCode;
                 var defaultResponse = new DefaultResponse(result.Value);
 
-                //await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(defaultResponse, _jsonSettings));
-                await context.HttpContext.Response.WriteAsync("test OK");
+                await context.HttpContext.Response.WriteAsync(JsonSerializer.Serialize(defaultResponse));
 
                 return;
             }
@@ -87,6 +87,24 @@ namespace Library.API.Filters
 
             return new DefaultErrorResponse(new DefaultError { Details = details });
         }
+
+        private DefaultErrorResponse GetBadRequestResponse(ValidationProblemDetails problemDetails)
+        {
+            var details = new List<DefaultErrorDetail>();
+            foreach (var error in problemDetails.Errors)
+            {
+                for (int i = 0; i < error.Value.Length; i++)
+                {
+                    details.Add(new DefaultErrorDetail { Message = $"Key: {error.Key}, Value: {error.Value[i]}" });
+                }
+            }
+
+            return new DefaultErrorResponse(
+                new DefaultError
+                {
+                    Details = details
+                });
+        }
     }
 
     public class DefaultResponse
@@ -97,7 +115,6 @@ namespace Library.API.Filters
         public object Payload { get; }
         public bool Success => true;
     }
-
     public class DefaultErrorResponse
     {
         public DefaultErrorResponse(DefaultError error) =>

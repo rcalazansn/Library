@@ -1,9 +1,6 @@
-﻿using Library.Core.Application;
-using MediatR;
-
-namespace Library.Application.Command.AddBook
+﻿namespace Library.API.Dtos.Book
 {
-    public class AddBookCommand : BaseCommand, IRequest<AddBookCommandResponse>
+    public class AddBookRequestDto
     {
         public string Title { get; set; }
         public string Author { get; set; }

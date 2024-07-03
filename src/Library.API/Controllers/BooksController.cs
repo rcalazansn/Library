@@ -1,36 +1,47 @@
-﻿using Library.Application.Command.AddBook;
+﻿using Library.API.Dtos.Book;
+using Library.API.Mappers.Book;
+using Library.Application.Command.AddBook;
 using Library.Application.Command.RemoveBook;
 using Library.Application.Queries.GetBooks;
 using Library.Application.Queries.GetBooksById;
+using Library.Core.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using System.Threading;
 
 namespace Library.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BooksController : ControllerBase
+    public class BooksController : MainController
     {
         private readonly ILogger<BooksController> _logger;
         private readonly IMediator _mediator;
 
-        public BooksController(ILogger<BooksController> logger, IMediator mediator)
+        public BooksController
+        (
+            ILogger<BooksController> logger,
+            INotifier notifier,
+            IMediator mediator
+        ) : base(notifier)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            _logger.LogTrace("BooksController has been initialized.");
         }
 
         [HttpGet("{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Request success!!")]
         public async Task<IActionResult> GetById(int id)
         {
-            _logger.LogInformation($"{DateTime.Now} GetById");
+            _logger.LogInformation($"{DateTime.Now} - POST GetById route has been initialized. Ip: {GetUserIp()}");
 
-            var command = new GetBooksByIdQuery(id);
+            var query = new GetBooksByIdQuery(id);
 
-            var book = await _mediator.Send(command);
+            var book = await _mediator.Send(query);
 
             if (book == null)
             {
@@ -42,26 +53,39 @@ namespace Library.API.Controllers
 
         [HttpGet]
         [SwaggerResponse((int)HttpStatusCode.OK, "Request success!!")]
-        public async Task<IActionResult> GetAll([FromQuery] string? query = null)
+        //[ProducesResponseType(typeof(AreasCoberturaAtivasResponseDto), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAll([FromQuery] string query, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"{DateTime.Now} GetAll");
 
-            var command = new GetBooksQuery(query);
+            /*
+             * _logger.LogInformation($"GET ObterAreasCoberturaAtivas has been initialized. IP: {GetUserIp()}");
 
-            var books = await _mediator.Send(command);
+            var result = await _obterAreasCoberturaAtivasService.ProcessAsync(new AreasCoberturaAtivasQuery(),
+                cancellationToken);
 
-            return Ok(books);
+            return Ok(result.MapToAreasCoberturaAtivasResponseDto());
+            */
+
+            //_logger.LogInformation($"{DateTime.Now} - POST GetAll route has been initialized. Ip: {GetUserIp()}");
+
+            //await _mediator.Send(dto.MapToAddBookCommand(), cancellationToken);
+
+            //return CreatedAtAction(nameof(Created), dto);
+
+            return Ok();
         }
 
         [HttpPost]
         [SwaggerResponse((int)HttpStatusCode.Created, "Request success!!")]
-        public async Task<IActionResult> Created([FromBody] AddBookCommand command)
+        [ProducesResponseType(typeof(AddBookCommandResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadGateway)]
+        public async Task<IActionResult> AddBook([FromBody] AddBookRequestDto dto, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"{DateTime.Now} Created");
+            _logger.LogInformation($"{DateTime.Now} - POST AddBook route has been initialized. Ip: {GetUserIp()}");
 
-            await _mediator.Send(command);
+            await _mediator.Send(dto.MapToAddBookCommand(), cancellationToken);
 
-            return CreatedAtAction(nameof(Created), command);
+            return CreatedAtAction(nameof(Created), dto);
         }
 
         [HttpDelete("{id}")]

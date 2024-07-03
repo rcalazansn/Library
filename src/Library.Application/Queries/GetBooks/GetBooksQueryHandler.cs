@@ -1,9 +1,7 @@
-﻿using Library.Application.Command.AddUser;
-using Library.Application.ViewModel;
+﻿using Library.Application.ViewModel;
 using Library.Infrastructure.UnitOfWork;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Library.Application.Queries.GetBooks
 {
@@ -22,23 +20,23 @@ namespace Library.Application.Queries.GetBooks
         }
         public async Task<List<BookViewModel>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
         {
-            var watch = Stopwatch.StartNew();
+            //var watch = Stopwatch.StartNew();
 
-            var books = await _uow.BookRepository.GetAsync(request.Query);
+            //var books = await _uow.BookRepository.GetAsync(request.Query);
 
-            var booksViewModel = books
-                .Select(t => new BookViewModel(t.Id, t.Title, t.Author, t.ISBN, t.YearOfPublication, t.Status, t.Loans.Any()))
-                .ToList();
+            //var booksViewModel = books
+            //    .Select(t => new BookViewModel(t.Id, t.Title, t.Author, t.ISBN, t.YearOfPublication, t.Status, t.Loans.Any()))
+            //    .ToList();
 
-            watch.Stop();
+            //watch.Stop();
 
-            _logger.LogDebug
-            (
-               $"Count: {booksViewModel.Count} successfully " +
-                $"ElapsedMilliseconds={watch.ElapsedMilliseconds}"
-            );
+            //_logger.LogDebug
+            //(
+            //   $"Count: {booksViewModel.Count} successfully " +
+            //    $"ElapsedMilliseconds={watch.ElapsedMilliseconds}"
+            //);
 
-            return booksViewModel;
+            return null;
         }
     }
 }
