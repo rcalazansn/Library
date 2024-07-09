@@ -2,6 +2,7 @@
 using Library.API.Mappers.User;
 using Library.Application.Command.AddUser;
 using Library.Application.Queries.GetUser;
+using Library.Application.ViewModel;
 using Library.Core.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using System.Net;
 namespace Library.API.Controllers
 {
     [Route("api/[controller]")]
-    
+
     public class UsersController : MainController
     {
         private readonly ILogger<UsersController> _logger;
@@ -18,8 +19,8 @@ namespace Library.API.Controllers
 
         public UsersController
         (
-            ILogger<UsersController> logger, 
-            INotifier notifier, 
+            ILogger<UsersController> logger,
+            INotifier notifier,
             IMediator mediator
         ) : base(notifier)
         {
@@ -31,24 +32,25 @@ namespace Library.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(AddUserCommandResponse), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> AddUser([FromBody] AddUserRequestDto dto, CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadGateway)]
+        public async Task<IActionResult> AddUser([FromBody] AddUserRequestDto dto, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation($"{DateTime.Now} - POST AddUser route has been initialized. Ip: {GetUserIp()}");
 
-            await _mediator.Send(dto.MapToAddUserCommand(), cancellationToken);
+            var result = await _mediator.Send(dto.MapToAddUserCommand(), cancellationToken);
 
-            return CustomResponse(HttpStatusCode.Created);
+            return CustomResponse(HttpStatusCode.Created, result);
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(AddUserRequestDto), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetAll([FromQuery] string? query = null)
+        [ProducesResponseType(typeof(IReadOnlyCollection<UserViewModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAll([FromQuery] string? query = null, int take = 5, int skip = 0, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation($"{DateTime.Now} GetAll");
+            _logger.LogInformation($"{DateTime.Now} - GET GetAll route has been initialized. Ip: {GetUserIp()}");
 
-            var command = new GetUsersQuery(query);
+            var command = new GetUsersQuery(query, take, skip);
 
-            var users = await _mediator.Send(command);
+            var users = await _mediator.Send(command, cancellationToken);
 
             return CustomResponse(HttpStatusCode.OK, users);
         }

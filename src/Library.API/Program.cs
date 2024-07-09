@@ -1,6 +1,5 @@
 using Library.API.Configuration;
-using Library.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 

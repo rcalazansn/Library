@@ -1,4 +1,5 @@
-﻿using Library.Core.Application;
+﻿using Library.Application.Notifications.User;
+using Library.Core.Application;
 using Library.Core.Notification;
 using Library.Domain.Models;
 using Library.Domain.Validations;
@@ -14,16 +15,19 @@ namespace Library.Application.Command.AddUser
     {
         private readonly ILogger<AddUserCommandHandler> _logger;
         private readonly IUnitOfWork _uow;
+        private readonly IMediator _mediator;
 
         public AddUserCommandHandler
         (
             ILogger<AddUserCommandHandler> logger,
             INotifier notifier,
+            IMediator mediator,
             IUnitOfWork uow
         ) : base(notifier)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _uow = uow ?? throw new ArgumentNullException(nameof(uow));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
         public async Task<AddUserCommandResponse> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
@@ -50,6 +54,7 @@ namespace Library.Application.Command.AddUser
                 return null;
 
             //publish (rabbitMQ)
+            await _mediator.Publish(new UserCreatedNotification(user.Id, user.Name, user.Email, user.UserTypeEnum));
 
             watch.Stop();
 
@@ -61,10 +66,7 @@ namespace Library.Application.Command.AddUser
 
             return new AddUserCommandResponse()
             {
-                Id = user.Id,
-                Email = request.Email,
-                Name = request.Name,
-                UserTypeEnm = request.UserTypeEnm
+                Id = user.Id
             };
         }
     }

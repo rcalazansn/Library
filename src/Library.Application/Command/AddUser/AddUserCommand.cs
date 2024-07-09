@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Library.Application.Command.AddUser
 {
-    public class AddUserCommand : BaseCommand, IRequest<AddUserCommandResponse>
+    public class AddUserCommand : IRequest<AddUserCommandResponse>
     {
         public string Name { get; set; }
         public string Email { get; set; }

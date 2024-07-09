@@ -14,16 +14,18 @@ namespace Library.Application.Command.AddBook
     {
         private readonly ILogger<AddBookCommandHandler> _logger;
         private readonly IUnitOfWork _uow;
-
+        private readonly IMediator _mediator;
         public AddBookCommandHandler
         (
             ILogger<AddBookCommandHandler> logger,
             INotifier notifier,
+            IMediator mediator,
             IUnitOfWork uow
         ) : base(notifier)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _uow = uow ?? throw new ArgumentNullException(nameof(uow));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<AddBookCommandResponse> Handle(AddBookCommand request, CancellationToken cancellationToken)
@@ -35,11 +37,11 @@ namespace Library.Application.Command.AddBook
             if (!ExecuteValidation(new AddBookValidation(), book))
                 return null;
 
-            var bookDb = await _uow.BookRepository.FirstAsync(_ => _.Title.Equals(book.Title));
+            var bookDb = await _uow.BookRepository.FirstAsync(_ => _.Title.ToUpper().Equals(book.Title.ToUpper()) && _.Author.ToUpper().Equals(book.Author.ToUpper()));
 
             if (bookDb != null)
             {
-                Notify("Title already registered");
+                Notify("Title already registered to the Author");
                 return null;
             }
 

@@ -36,5 +36,7 @@ namespace Library.Domain.Models
         {
             Status = BookStatusEnum.Borrowed;
         }
+        public bool IsBorrowed()
+            => Status == BookStatusEnum.Borrowed ? true : false;
     }
 }
