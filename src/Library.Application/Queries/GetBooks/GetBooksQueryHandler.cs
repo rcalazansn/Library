@@ -1,5 +1,7 @@
-﻿using Library.Application.Command.AddUser;
-using Library.Application.ViewModel;
+﻿using Library.Application.ViewModel;
+using Library.Core.Application;
+using Library.Core.Notification;
+using Library.Domain.Models;
 using Library.Infrastructure.UnitOfWork;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -7,28 +9,40 @@ using System.Diagnostics;
 
 namespace Library.Application.Queries.GetBooks
 {
-    public class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, List<BookViewModel>>
+    public class GetBooksQueryHandler : BaseCommandHandler,
+        IRequestHandler<GetBooksQuery, IReadOnlyCollection<BookViewModel>>
     {
         private readonly ILogger<GetBooksQueryHandler> _logger;
         private readonly IUnitOfWork _uow;
         public GetBooksQueryHandler
         (
             ILogger<GetBooksQueryHandler> logger,
+            INotifier notifier,
             IUnitOfWork uow
-        )
+        ) : base(notifier)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _uow = uow ?? throw new ArgumentNullException(nameof(uow));
         }
-        public async Task<List<BookViewModel>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<BookViewModel>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
         {
             var watch = Stopwatch.StartNew();
 
-            var books = await _uow.BookRepository.GetAsync(request.Query);
+            IReadOnlyCollection<Book> books = null;
 
-            var booksViewModel = books
-                .Select(t => new BookViewModel(t.Id, t.Title, t.Author, t.ISBN, t.YearOfPublication, t.Status, t.Loans.Any()))
-                .ToList();
+            if (!string.IsNullOrWhiteSpace(request.Query))
+            {
+                books = await _uow.BookRepository
+                    .GetDataAsync(f => (f.Author.ToUpper().Contains(request.Query.ToUpper()) || f.Title.ToUpper().Contains(request.Query.ToLower())),
+                        take: request.Take, skip: request.Skip);
+            }
+            else
+            {
+                books = await _uow.BookRepository
+                    .GetDataAsync(take: request.Take, skip: request.Skip);
+            }
+
+            var booksViewModel = books.Select(t => new BookViewModel(t.Id, t.Title, t.Author, t.ISBN, t.YearOfPublication, t.Status, t.IsBorrowed())).ToList();
 
             watch.Stop();
 

@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Library.Core.Notification;
 using Library.Domain.Repositories;
 using Library.Infrastructure.Persistence;
 using Library.Infrastructure.Repositories;
@@ -8,10 +9,11 @@ namespace Library.Infrastructure.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly LibraryDbContext _context;
-        private readonly ValidationResult _validationResult;
-        public UnitOfWork(LibraryDbContext context)
+        private readonly INotifier _notifier;
+        public UnitOfWork(LibraryDbContext context, INotifier notifier)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _notifier = notifier ?? throw new ArgumentNullException(nameof(notifier));
         }
 
         private IBookRepository _bookRepository;
@@ -31,19 +33,16 @@ namespace Library.Infrastructure.UnitOfWork
         {
             get => _userRepository ?? (_userRepository = new UserRepository(_context));
         }
-
-        public async Task<ValidationResult> Commit(CancellationToken cancellationToken)
+        public async Task<bool> CommitAsync(CancellationToken cancellationToken)
         {
-            //_validationResult.Errors.Clear();
-
-            var success = await _context.SaveChangesAsync(cancellationToken) > 0;
+            bool success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
             if (!success)
-                AddError("There was an error persisting data!");
+                _notifier.Handle(new Notication("no records were saved/changed/deleted!"));
 
-            return _validationResult;
+            return success;
         }
-        protected void AddError(string message) => _validationResult.Errors.Add(new ValidationFailure(string.Empty, message));
+
         public void Dispose() => _context.Dispose();
     }
 }

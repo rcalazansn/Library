@@ -1,13 +1,9 @@
-﻿using Library.Domain.Models;
+﻿using Library.Core.Infrastructure;
+using Library.Domain.Models;
 
 namespace Library.Domain.Repositories
 {
-    public interface IBookRepository
+    public interface IBookRepository : IGenericRepository<Book>
     {
-        Task AddAsync(Book book);
-        Task<List<Book>> GetAsync(string query);
-        Task<List<Book>> GetAsync();
-        Task<Book?> GetByIdAsync(int id);
-        Task RemoveAsync(int id);
     }
 }

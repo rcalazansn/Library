@@ -8,6 +8,10 @@ namespace Library.API.Configuration
         {
             services.AddMediatR(t => t.RegisterServicesFromAssembly(typeof(AddBookCommandHandler).Assembly));
 
+            /*
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetUsersQueryHandler).Assembly));
+            */
             return services;
         }
     }

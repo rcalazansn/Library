@@ -1,4 +1,5 @@
-﻿using Library.Domain.Enum;
+﻿using Library.Core.Domain;
+using Library.Domain.Enum;
 
 namespace Library.Domain.Models
 {
@@ -35,5 +36,7 @@ namespace Library.Domain.Models
         {
             Status = BookStatusEnum.Borrowed;
         }
+        public bool IsBorrowed()
+            => Status == BookStatusEnum.Borrowed ? true : false;
     }
 }

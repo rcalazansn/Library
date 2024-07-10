@@ -36,10 +36,18 @@ namespace Library.Infrastructure.Migrations
                         .HasColumnType("varchar(30)")
                         .HasColumnName("author");
 
+                    b.Property<DateTime>("CreateddAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("createdd_at");
+
                     b.Property<string>("ISBN")
                         .IsRequired()
                         .HasColumnType("varchar(13)")
                         .HasColumnName("isbn");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("modified_at");
 
                     b.Property<int>("Status")
                         .HasColumnType("int")
@@ -73,6 +81,10 @@ namespace Library.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnName("book_id");
 
+                    b.Property<DateTime>("CreateddAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("createdd_at");
+
                     b.Property<DateTime>("DeadlineReturnDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("deadline_return_date");
@@ -80,6 +92,10 @@ namespace Library.Infrastructure.Migrations
                     b.Property<DateTime>("LoanDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("loan_date");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("modified_at");
 
                     b.Property<DateTime>("ReturnDate")
                         .HasColumnType("datetime2")
@@ -108,10 +124,18 @@ namespace Library.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreateddAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("createdd_at");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasColumnName("email");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("Name")
                         .IsRequired()

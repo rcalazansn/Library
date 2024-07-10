@@ -1,6 +1,5 @@
 using Library.API.Configuration;
-using Library.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +9,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Configurations
-builder.Services.AddApiConfig(builder.Configuration);
-builder.Services.AddDbContext<LibraryDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryConnection")));
+builder.Services.AddApiConfig();
+builder.Services.ResolveDependencies(builder.Configuration);
 builder.Services.AddCorsConfig();
-builder.Services.ResolveDependencies();
 builder.Services.AddMediatr();
 
 var app = builder.Build();

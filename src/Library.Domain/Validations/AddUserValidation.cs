@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Validators;
 using Library.Domain.Models;
 
 namespace Library.Domain.Validations
@@ -9,11 +10,15 @@ namespace Library.Domain.Validations
         {
             RuleFor(x => x.Name)
                .NotEmpty()
-               .WithMessage("Name is Required");
+               .WithMessage("is Required");
 
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage("Email is Required");
+                .WithMessage("is Required");
+
+            RuleFor(x => x.Email)
+                .EmailAddress(EmailValidationMode.AspNetCoreCompatible)
+                .WithMessage("is not valid");
         }
     }
 }

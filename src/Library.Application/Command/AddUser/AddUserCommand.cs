@@ -1,9 +1,10 @@
-﻿using Library.Domain.Enum;
+﻿using Library.Core.Application;
+using Library.Domain.Enum;
 using MediatR;
 
 namespace Library.Application.Command.AddUser
 {
-    public class AddUserCommand : IRequest
+    public class AddUserCommand : IRequest<AddUserCommandResponse>
     {
         public string Name { get; set; }
         public string Email { get; set; }

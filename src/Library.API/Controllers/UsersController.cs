@@ -1,47 +1,60 @@
-﻿using Library.Application.Command.AddUser;
+﻿using Library.API.Dtos.User;
+using Library.API.Filters;
+using Library.API.Mappers.User;
+using Library.API.Middlewares;
 using Library.Application.Queries.GetUser;
+using Library.Core.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
 namespace Library.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController: ControllerBase
+
+    public class UsersController : MainController
     {
         private readonly ILogger<UsersController> _logger;
         private readonly IMediator _mediator;
 
-        public UsersController(ILogger<UsersController> logger, IMediator mediator)
+        public UsersController
+        (
+            ILogger<UsersController> logger,
+            INotifier notifier,
+            IMediator mediator
+        ) : base(notifier)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            _logger.LogTrace("UsersController has been initialized.");
         }
 
         [HttpPost]
-        [SwaggerResponse((int)HttpStatusCode.Created, "Request success!!")]
-        public async Task<IActionResult> Create([FromBody] AddUserCommand command)
+        [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> AddUser([FromBody] AddUserRequestDto dto, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation($"{DateTime.Now} GetAll");
+            _logger.LogInformation($"{DateTime.Now} - POST AddUser route has been initialized. Ip: {GetUserIp()}");
 
-            await _mediator.Send(command);
+            var result = await _mediator.Send(dto.MapToAddUserCommand(), cancellationToken);
 
-            return NoContent();
+            return CustomResponse(HttpStatusCode.Created, result);
         }
 
         [HttpGet]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Request success!!")]
-        public async Task<IActionResult> GetAll([FromQuery] string? query = null)
+        [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetAll([FromQuery] string? query = null, int take = 5, int skip = 0, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation($"{DateTime.Now} GetAll");
+            _logger.LogInformation($"{DateTime.Now} - GET GetAll route has been initialized. Ip: {GetUserIp()}");
 
-            var command = new GetUsersQuery(query);
+            var command = new GetUsersQuery(query, take, skip);
 
-            var users = await _mediator.Send(command);
+            var users = await _mediator.Send(command, cancellationToken);
 
-            return Ok(users);
+            return CustomResponse(HttpStatusCode.OK, users);
         }
     }
 }
