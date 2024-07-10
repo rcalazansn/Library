@@ -1,16 +1,13 @@
 ﻿using Library.API.Dtos.Book;
-using Library.API.Dtos.User;
+using Library.API.Filters;
 using Library.API.Mappers.Book;
-using Library.Application.Command.AddBook;
+using Library.API.Middlewares;
 using Library.Application.Command.RemoveBook;
 using Library.Application.Queries.GetBooks;
 using Library.Application.Queries.GetBooksById;
-using Library.Application.Queries.GetUser;
-using Library.Application.ViewModel;
 using Library.Core.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
 namespace Library.API.Controllers
@@ -35,39 +32,42 @@ namespace Library.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Request success!!")]
+        [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation($"{DateTime.Now} - POST GetById route has been initialized. Ip: {GetUserIp()}");
+            _logger.LogInformation($"{DateTime.Now} - GET GetById route has been initialized. Ip: {GetUserIp()}");
 
-            var query = new GetBooksByIdQuery(id);
+            var command = new GetBooksByIdQuery(id);
 
-            var book = await _mediator.Send(query, cancellationToken);
+            var result = await _mediator.Send(command, cancellationToken);
 
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(book);
+            if (result == null)
+                return CustomResponse(HttpStatusCode.NotFound);
+            else
+                return CustomResponse(HttpStatusCode.OK, result);
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IReadOnlyCollection<BookViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IReadOnlyCollection<DefaultResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetAll([FromQuery] string query = null, int take = 5, int skip = 0, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation($"{DateTime.Now} - GET GetAll route has been initialized. Ip: {GetUserIp()}");
 
             var command = new GetBooksQuery(query, take, skip);
 
-            var users = await _mediator.Send(command, cancellationToken);
+            var result = await _mediator.Send(command, cancellationToken);
 
-            return CustomResponse(HttpStatusCode.OK, users);
+            return CustomResponse(HttpStatusCode.OK, result);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(AddBookCommandResponse), (int)HttpStatusCode.Created)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadGateway)]
+        [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> AddBook([FromBody] AddBookRequestDto dto, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation($"{DateTime.Now} - POST AddBook route has been initialized. Ip: {GetUserIp()}");
@@ -78,7 +78,9 @@ namespace Library.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [SwaggerResponse((int)HttpStatusCode.NotFound, "Request success!!")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation($"{DateTime.Now} Delete");

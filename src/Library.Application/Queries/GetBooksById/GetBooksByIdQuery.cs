@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Library.Application.Queries.GetBooksById
 {
-    public class GetBooksByIdQuery : IRequest<BookDetailsViewModel?>
+    public class GetBooksByIdQuery : IRequest<BookViewModel>
     {
         public GetBooksByIdQuery(int id) => Id = id;
 

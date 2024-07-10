@@ -1,5 +1,6 @@
 ﻿using Library.Core.Notification;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
 
 namespace Library.API.Controllers
@@ -17,6 +18,9 @@ namespace Library.API.Controllers
 
         protected ActionResult CustomResponse(HttpStatusCode statusCode = HttpStatusCode.OK, object result = null)
         {
+            if (statusCode == HttpStatusCode.NotFound)
+                return NotFound();
+
             if (IsValid())
             {
                 return new ObjectResult(result)

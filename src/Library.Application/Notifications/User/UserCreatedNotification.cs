@@ -5,12 +5,12 @@ namespace Library.Application.Notifications.User
 {
     public class UserCreatedNotification : INotification
     {
-        public UserCreatedNotification(int id, string name, string email, UserTypeEnum userTypeEnm)
+        public UserCreatedNotification(Domain.Models.User user)
         {
-            Id = id;
-            Name = name;
-            Email = email;
-            UserTypeEnm = userTypeEnm;
+            Id = user.Id;
+            Name = user.Name;
+            Email = user.Email;
+            UserTypeEnm = user.UserTypeEnum;
         }
         public int Id { get; private set; }
         public string Name { get; private set; }

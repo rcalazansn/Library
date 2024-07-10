@@ -1,4 +1,5 @@
 ﻿using Library.Core.Notification;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
@@ -36,7 +37,7 @@ namespace Library.API.Filters
                 return;
             }
 
-            if (result?.Value != null && result?.StatusCode == 400)
+            if (result?.Value != null && result?.StatusCode == (int)HttpStatusCode.BadRequest)
             {
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
@@ -44,8 +45,17 @@ namespace Library.API.Filters
 
                 _logger.LogWarning(GetLoggingBadRequest(badRequestResult));
 
-                var content = JsonSerializer.Serialize(GetBadRequestResponse(badRequestResult));
-                await context.HttpContext.Response.WriteAsync(content);
+                await context.HttpContext.Response.WriteAsync(JsonSerializer.Serialize(GetBadRequestResponse(badRequestResult)));
+
+                return;
+            }
+
+            if (result?.StatusCode == (int)HttpStatusCode.NotFound)
+            {
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                var defaultResponse = new DefaultResponse(null);
+
+                await context.HttpContext.Response.WriteAsync(JsonSerializer.Serialize(defaultResponse));
 
                 return;
             }

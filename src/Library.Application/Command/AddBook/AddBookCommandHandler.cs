@@ -1,4 +1,5 @@
-﻿using Library.Core.Application;
+﻿using Library.Application.Notifications.book;
+using Library.Core.Application;
 using Library.Core.Notification;
 using Library.Domain.Models;
 using Library.Domain.Validations;
@@ -53,6 +54,7 @@ namespace Library.Application.Command.AddBook
                 return null;
 
             //publish (rabbitMQ)
+            await _mediator.Publish(new BookCreatedNotification(book));
 
             watch.Stop();
 

@@ -1,8 +1,8 @@
 ﻿using Library.API.Dtos.User;
+using Library.API.Filters;
 using Library.API.Mappers.User;
-using Library.Application.Command.AddUser;
+using Library.API.Middlewares;
 using Library.Application.Queries.GetUser;
-using Library.Application.ViewModel;
 using Library.Core.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +31,9 @@ namespace Library.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(AddUserCommandResponse), (int)HttpStatusCode.Created)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadGateway)]
+        [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> AddUser([FromBody] AddUserRequestDto dto, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation($"{DateTime.Now} - POST AddUser route has been initialized. Ip: {GetUserIp()}");
@@ -43,7 +44,8 @@ namespace Library.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IReadOnlyCollection<UserViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetAll([FromQuery] string? query = null, int take = 5, int skip = 0, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation($"{DateTime.Now} - GET GetAll route has been initialized. Ip: {GetUserIp()}");

@@ -1,5 +1,4 @@
-﻿using Library.Core.Application;
-using MediatR;
+﻿using MediatR;
 
 namespace Library.Application.Command.AddBook
 {

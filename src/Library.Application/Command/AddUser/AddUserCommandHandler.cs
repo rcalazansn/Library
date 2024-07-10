@@ -54,7 +54,7 @@ namespace Library.Application.Command.AddUser
                 return null;
 
             //publish (rabbitMQ)
-            await _mediator.Publish(new UserCreatedNotification(user.Id, user.Name, user.Email, user.UserTypeEnum));
+            await _mediator.Publish(new UserCreatedNotification(user));
 
             watch.Stop();
 
