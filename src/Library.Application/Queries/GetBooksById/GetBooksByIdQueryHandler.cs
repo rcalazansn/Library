@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Library.Application.Queries.GetBooksById
 {
-    public class GetBooksByIdQueryHandler : BaseCommandHandler,
+    public class GetBooksByIdQueryHandler : BaseHandler,
         IRequestHandler<GetBooksByIdQuery, BookViewModel>
     {
         private readonly ILogger<GetBooksByIdQueryHandler> _logger;

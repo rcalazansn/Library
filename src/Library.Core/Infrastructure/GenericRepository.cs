@@ -76,5 +76,24 @@ namespace Library.Core.Infrastructure
 
             return await query.ToListAsync();
         }
+
+        public async Task<T> GetByIdAsync(
+            Expression<System.Func<T, bool>> expression = null,
+            Func<System.Linq.IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+            var query = _dbSet.AsQueryable();
+
+            if (expression != null)
+            {
+                query = query.Where(expression);
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            return await query.FirstOrDefaultAsync();
+        }
     }
 }

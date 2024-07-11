@@ -18,6 +18,9 @@ namespace Library.API.Controllers
 
         protected ActionResult CustomResponse(HttpStatusCode statusCode = HttpStatusCode.OK, object result = null)
         {
+            if (statusCode == HttpStatusCode.NoContent)
+                return NoContent();
+
             if (statusCode == HttpStatusCode.NotFound)
                 return NotFound();
 

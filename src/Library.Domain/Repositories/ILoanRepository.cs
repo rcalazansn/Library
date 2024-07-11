@@ -1,11 +1,10 @@
-﻿using Library.Domain.Models;
+﻿using Library.Core.Infrastructure;
+using Library.Domain.Models;
 
 namespace Library.Domain.Repositories
 {
-    public interface ILoanRepository
+    public interface ILoanRepository : IGenericRepository<Loan>
     {
-        Task AddAsync(Loan loan);
-        Task<List<Loan>> GetAsync();
         Task ReturnBookAsync(int id);
     }
 }

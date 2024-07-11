@@ -1,5 +1,5 @@
 ﻿using Library.Application.Command.AddUser;
-using Library.Application.Notifications.book;
+using Library.Application.Notifications.Book;
 using Library.Core.Application;
 using Library.Core.Notification;
 using Library.Infrastructure.UnitOfWork;
@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace Library.Application.Command.RemoveBook
 {
-    public class RemoveBookCommandHandler : BaseCommandHandler,
+    public class RemoveBookCommandHandler : BaseHandler,
         IRequestHandler<RemoveBookCommand>
     {
         private readonly ILogger<AddUserCommandHandler> _logger;
@@ -18,7 +18,7 @@ namespace Library.Application.Command.RemoveBook
         public RemoveBookCommandHandler
         (
             ILogger<AddUserCommandHandler> logger,
-             INotifier notifier,
+            INotifier notifier,
             IMediator mediator,
             IUnitOfWork uow
         ) : base(notifier)

@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace Library.Application.Queries.GetBooks
 {
-    public class GetBooksQueryHandler : BaseCommandHandler,
+    public class GetBooksQueryHandler : BaseHandler,
         IRequestHandler<GetBooksQuery, IReadOnlyCollection<BookViewModel>>
     {
         private readonly ILogger<GetBooksQueryHandler> _logger;
@@ -42,7 +42,8 @@ namespace Library.Application.Queries.GetBooks
                     .GetDataAsync(take: request.Take, skip: request.Skip);
             }
 
-            var booksViewModel = books.Select(t => new BookViewModel(t.Id, t.Title, t.Author, t.ISBN, t.YearOfPublication, t.Status, t.IsBorrowed())).ToList();
+            var booksViewModel = books.Select(_ => 
+                new BookViewModel(_.Id, _.Title, _.Author, _.ISBN, _.YearOfPublication, _.Status, _.IsBorrowed())).ToList();
 
             watch.Stop();
 

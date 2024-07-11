@@ -5,11 +5,11 @@ using Library.Core.Notification;
 
 namespace Library.Core.Application
 {
-    public abstract class BaseCommandHandler
+    public abstract class BaseHandler
     {
         private readonly INotifier _notifier;
 
-        protected BaseCommandHandler(INotifier notifier) =>
+        protected BaseHandler(INotifier notifier) =>
           _notifier = notifier ?? throw new ArgumentNullException(nameof(notifier));
 
         protected void Notify(ValidationResult validationResult)

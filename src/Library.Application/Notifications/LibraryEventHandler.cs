@@ -1,4 +1,5 @@
-﻿using Library.Application.Notifications.book;
+﻿using Library.Application.Notifications.Book;
+using Library.Application.Notifications.Loan;
 using Library.Application.Notifications.User;
 using MediatR;
 
@@ -7,7 +8,9 @@ namespace Library.Application.Notifications
     public class LibraryEventHandler :
             INotificationHandler<UserCreatedNotification>,
             INotificationHandler<BookCreatedNotification>,
-            INotificationHandler<BookRemovedNotification>
+            INotificationHandler<BookRemovedNotification>,
+            INotificationHandler<LoanCreatedNotification>,
+            INotificationHandler<ReturnBookNotification>
     {
         public async Task Handle(UserCreatedNotification notification, CancellationToken cancellationToken)
         {
@@ -30,6 +33,20 @@ namespace Library.Application.Notifications
             await Task.Run(() =>
             {
                 Console.WriteLine($"BookRemoved: '{notification.Id} - {notification.Author} - {notification.Title}'");
+            });
+        }
+        public async Task Handle(LoanCreatedNotification notification, CancellationToken cancellationToken)
+        {
+            await Task.Run(() =>
+            {
+                Console.WriteLine($"LoanCreated: '{notification.Id} - {notification.UserId} - {notification.BookId}'");
+            });
+        }
+        public async Task Handle(ReturnBookNotification notification, CancellationToken cancellationToken)
+        {
+            await Task.Run(() =>
+            {
+                Console.WriteLine($"ReturnBook: '{notification.Id}'");
             });
         }
     }

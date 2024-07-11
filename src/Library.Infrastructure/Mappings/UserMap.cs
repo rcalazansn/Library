@@ -9,7 +9,7 @@ namespace Library.Infrastructure.Mappings
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .HasKey(t => t.Id);
+                .HasKey(_ => _.Id);
 
             builder
               .ToTable("users");
@@ -25,9 +25,9 @@ namespace Library.Infrastructure.Mappings
               .HasColumnType("varchar(50)");
 
             builder
-                .HasMany(t => t.Loans)
-                .WithOne(t => t.User)
-                .HasForeignKey(t => t.UserId)
+                .HasMany(_ => _.Loans)
+                .WithOne(_ => _.User)
+                .HasForeignKey(_ => _.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

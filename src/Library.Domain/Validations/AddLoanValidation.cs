@@ -7,6 +7,13 @@ namespace Library.Domain.Validations
     {
         public AddLoanValidation()
         {
+            RuleFor(x => x.UserId)
+              .NotEmpty()
+              .WithMessage("is Required");
+
+            RuleFor(x => x.BookId)
+              .NotEmpty()
+              .WithMessage("is Required");
         }
     }
 }

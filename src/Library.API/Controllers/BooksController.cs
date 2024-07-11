@@ -89,7 +89,7 @@ namespace Library.API.Controllers
 
             await _mediator.Send(command, cancellationToken);
 
-            return NoContent();
+            return CustomResponse(HttpStatusCode.NoContent);
         }
     }
 }

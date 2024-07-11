@@ -18,5 +18,8 @@ namespace Library.Core.Infrastructure
             Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
             int? skip = null,
             int? take = null);
+        Task<T> GetByIdAsync(
+            Expression<Func<T, bool>> expression = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null);
     }
 }

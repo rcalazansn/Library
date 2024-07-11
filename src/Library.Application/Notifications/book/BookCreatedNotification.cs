@@ -2,11 +2,11 @@
 using Library.Domain.Models;
 using MediatR;
 
-namespace Library.Application.Notifications.book
+namespace Library.Application.Notifications.Book
 {
     public class BookCreatedNotification : INotification
     {
-        public BookCreatedNotification(Book book)
+        public BookCreatedNotification(Domain.Models.Book book)
         {
             Id = book.Id;
             Title = book.Title;
