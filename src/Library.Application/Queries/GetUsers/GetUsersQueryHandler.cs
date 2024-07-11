@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace Library.Application.Queries.GetUser
 {
-    public class GetUsersQueryHandler : BaseCommandHandler,
+    public class GetUsersQueryHandler : BaseHandler,
         IRequestHandler<GetUsersQuery, IReadOnlyCollection<UserViewModel>>
     {
         private readonly ILogger<GetUsersQueryHandler> _logger;

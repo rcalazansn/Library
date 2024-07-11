@@ -4,17 +4,13 @@ namespace Library.Domain.Models
 {
     public class Loan : BaseEntity
     {
-        public Loan(int userId, int bookId, DateTime deadlineReturnDate)
+        public Loan(int userId, int bookId)
         {
             UserId = userId;
             BookId = bookId;
 
             LoanDate = DateTime.Now;
-
-            if (deadlineReturnDate != default)
-                DeadlineReturnDate = deadlineReturnDate;
-            else
-                DeadlineReturnDate = DateTime.Now.AddDays(7);
+            DeadlineReturnDate = DateTime.Now.AddDays(7);
         }
 
         public User User { get; private set; }
@@ -24,10 +20,7 @@ namespace Library.Domain.Models
         public DateTime LoanDate { get; private set; }
         public DateTime DeadlineReturnDate { get; private set; }
         public DateTime ReturnDate { get; private set; }
-
-        public void DevolverLivro()
-        {
+        public void ReturnBook() =>
             ReturnDate = DateTime.Now;
-        }
     }
 }

@@ -22,21 +22,10 @@ namespace Library.Domain.Models
         public int YearOfPublication { get; private set; }
         public BookStatusEnum Status { get; private set; }
         public List<Loan> Loans { get; private set; }
-
-        public void Available()
-        {
-            Status = BookStatusEnum.Available;
-        }
-
-        public void Lost()
-        {
-            Status = BookStatusEnum.Lost;
-        }
-        public void Borrowed()
-        {
-            Status = BookStatusEnum.Borrowed;
-        }
-        public bool IsBorrowed()
-            => Status == BookStatusEnum.Borrowed ? true : false;
+        public void Available() => Status = BookStatusEnum.Available;
+        public void Lost() => Status = BookStatusEnum.Lost;
+        public void Borrowed() => Status = BookStatusEnum.Borrowed;
+        public bool IsBorrowed() => Status == BookStatusEnum.Borrowed ? true : false;
+        public bool IsAvailable() => Status == BookStatusEnum.Available ? true : false;
     }
 }

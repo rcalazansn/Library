@@ -1,35 +1,44 @@
 ﻿using Library.Application.ViewModel;
+using Library.Core.Application;
+using Library.Core.Notification;
+using Library.Domain.Models;
 using Library.Infrastructure.UnitOfWork;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace Library.Application.Queries.GetLoans
 {
-    public class GetLoansQueryHandler : IRequestHandler<GetLoansQuery, List<LoanViewModel>>
+    public class GetLoansQueryHandler : BaseHandler,
+        IRequestHandler<GetLoansQuery, IReadOnlyCollection<LoanViewModel>>
     {
         private readonly ILogger<GetLoansQueryHandler> _logger;
         private readonly IUnitOfWork _uow;
 
         public GetLoansQueryHandler
-        (
+         (
             ILogger<GetLoansQueryHandler> logger,
+            INotifier notifier,
             IUnitOfWork uow
-        )
+        ) : base(notifier)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _uow = uow ?? throw new ArgumentNullException(nameof(uow));
         }
 
-        public async Task<List<LoanViewModel>> Handle(GetLoansQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<LoanViewModel>> Handle(GetLoansQuery request, CancellationToken cancellationToken)
         {
             var watch = Stopwatch.StartNew();
 
-            var loans = await _uow.LoanRepository.GetAsync();
+            IReadOnlyCollection<Loan> loans = await _uow.LoanRepository.GetDataAsync(
+                include: _ => _.Include(b => b.Book).Include(u=>u.User),
+                take: request.Take,
+                skip: request.Skip);
 
-            var loansViewModel = loans
-                .Select(t => new LoanViewModel(t.Id, t.User.Name, t.Book.Title, t.LoanDate, t.DeadlineReturnDate, t.ReturnDate))
-                .ToList();
+            var loansViewModel = loans.Select(_ =>
+                new LoanViewModel(_.Id, _.UserId, _.BookId, _.User.Name, _.Book.Title, _.LoanDate, 
+                    _.DeadlineReturnDate, _.ReturnDate, _.Book.Status)).ToList();
 
             watch.Stop();
 

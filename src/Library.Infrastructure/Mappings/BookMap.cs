@@ -12,7 +12,7 @@ namespace Library.Infrastructure.Mappings
                .ToTable("books");
 
             builder
-                .HasKey(t => t.Id);
+                .HasKey(_ => _.Id);
 
             builder
              .Property(_ => _.Title)
@@ -30,9 +30,9 @@ namespace Library.Infrastructure.Mappings
              .HasColumnType("varchar(13)");
 
             builder
-                .HasMany(t => t.Loans)
-                .WithOne(t => t.Book)
-                .HasForeignKey(t => t.BookId)
+                .HasMany(_ => _.Loans)
+                .WithOne(_ => _.Book)
+                .HasForeignKey(_ => _.BookId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -1,61 +1,75 @@
-﻿using Library.Application.Command.AddLoan;
+﻿using Library.API.Dtos.Loan;
+using Library.API.Filters;
+using Library.API.Mappers.Loan;
+using Library.API.Middlewares;
 using Library.Application.Command.ReturnBook;
 using Library.Application.Queries.GetLoans;
+using Library.Core.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
 namespace Library.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class LoansController: ControllerBase
+    public class LoansController: MainController
     {
         private readonly ILogger<LoansController> _logger;
         private readonly IMediator _mediator;
 
-        public LoansController(ILogger<LoansController> logger, IMediator mediator)
+        public LoansController
+        (
+            ILogger<LoansController> logger,
+            INotifier notifier,
+            IMediator mediator
+        ) : base(notifier)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            _logger.LogTrace("BooksController has been initialized.");
         }
 
-        [HttpGet("get-all")]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Request success!!")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet]
+        [ProducesResponseType(typeof(IReadOnlyCollection<DefaultResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetAll(int take = 5, int skip = 0, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation($"{DateTime.Now} GetAll");
+            _logger.LogInformation($"{DateTime.Now} - GET GetAll route has been initialized. Ip: {GetUserIp()}");
 
-            var command = new GetLoansQuery();
+            var command = new GetLoansQuery(take, skip);
 
-            var loans = await _mediator.Send(command);
+            var result = await _mediator.Send(command, cancellationToken);
 
-            return Ok(loans);
+            return CustomResponse(HttpStatusCode.OK, result);
         }
 
         [HttpPost]
-        [SwaggerResponse((int)HttpStatusCode.Created, "Request success!!")]
-        public async Task<IActionResult> Create([FromBody] AddLoanCommand command)
+        [ProducesResponseType(typeof(DefaultResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> AddLoan([FromBody] AddLoanRequestDto dto, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation($"{DateTime.Now} Create");
+            _logger.LogInformation($"{DateTime.Now} - POST AddLoan route has been initialized. Ip: {GetUserIp()}");
 
-            await _mediator.Send(command);
+            var result = await _mediator.Send(dto.MapToAddLoanCommand(), cancellationToken);
 
-            return NoContent();
+            return CustomResponse(HttpStatusCode.Created, result);
         }
 
         [HttpPut("{id}/return-book")]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Request success!!")]
-        public async Task<IActionResult> ReturnBook(int id)
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> ReturnBook(int id, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation($"{DateTime.Now} ReturnBook");
+            _logger.LogInformation($"{DateTime.Now} - PUT ReturnBook route has been initialized. Ip: {GetUserIp()}");
 
-            var command = new ReturnBookCommand(id);
+            var command = new ReturnBookCommand (id);
 
-            await _mediator.Send(command);
+            await _mediator.Send(command, cancellationToken);
 
-            return Ok();
+            return CustomResponse(HttpStatusCode.NoContent);
         }
     }
 }

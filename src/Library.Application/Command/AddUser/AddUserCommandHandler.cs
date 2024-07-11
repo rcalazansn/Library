@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Library.Application.Command.AddUser
 {
-    public class AddUserCommandHandler : BaseCommandHandler,
+    public class AddUserCommandHandler : BaseHandler,
         IRequestHandler<AddUserCommand, AddUserCommandResponse>
     {
         private readonly ILogger<AddUserCommandHandler> _logger;

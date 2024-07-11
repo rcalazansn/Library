@@ -12,18 +12,18 @@ namespace Library.Infrastructure.Mappings
               .ToTable("loans");
 
             builder
-                .HasKey(t => t.Id);
+                .HasKey(_ => _.Id);
 
             builder
-                .HasOne(t => t.User)
-                .WithMany(t => t.Loans)
-                .HasForeignKey(t => t.UserId)
+                .HasOne(_ => _.User)
+                .WithMany(_ => _.Loans)
+                .HasForeignKey(_ => _.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasOne(t => t.Book)
-                .WithMany(t => t.Loans)
-                .HasForeignKey(t => t.BookId)
+                .HasOne(_ => _.Book)
+                .WithMany(_ => _.Loans)
+                .HasForeignKey(_ => _.BookId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

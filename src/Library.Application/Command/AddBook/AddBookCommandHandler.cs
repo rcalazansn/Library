@@ -1,4 +1,4 @@
-﻿using Library.Application.Notifications.book;
+﻿using Library.Application.Notifications.Book;
 using Library.Core.Application;
 using Library.Core.Notification;
 using Library.Domain.Models;
@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Library.Application.Command.AddBook
 {
-    public class AddBookCommandHandler : BaseCommandHandler,
+    public class AddBookCommandHandler : BaseHandler,
         IRequestHandler<AddBookCommand, AddBookCommandResponse>
     {
         private readonly ILogger<AddBookCommandHandler> _logger;
