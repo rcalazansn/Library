@@ -14,6 +14,13 @@ Sql Server Docker
 2. Server=localhost,1433;Database=Library;User ID=sa;Password=1q2w3e4r@#$
 2.1. Server=localhost,1433;Database=Library;User ID=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;
 
+RabbitMQ
+1. docker run -d --hostname rabbit-local --name library-rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=library -e RABBITMQ_DEFAULT_PASS=library!@# rabbitmq:3-management
+2. http://localhost:15672
+
+
+docker run -d --hostname rabbit-local --name library-rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=library -e RABBITMQ_DEFAULT_PASS=library!@# rabbitmq:3-management
+
 
 
 

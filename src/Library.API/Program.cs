@@ -1,9 +1,11 @@
 using Library.API.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
