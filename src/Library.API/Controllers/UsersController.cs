@@ -6,12 +6,13 @@ using Library.Application.Queries.GetUser;
 using Library.Core.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using System.Net;
 
 namespace Library.API.Controllers
 {
     [Route("api/[controller]")]
-
+    [OutputCache(PolicyName = "Expire10Seconds")]
     public class UsersController : MainController
     {
         private readonly ILogger<UsersController> _logger;

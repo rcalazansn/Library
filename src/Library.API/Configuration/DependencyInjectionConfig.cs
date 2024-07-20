@@ -9,7 +9,7 @@ namespace Library.API.Configuration
 {
     public static class DependencyInjectionConfig
     {
-        public static IServiceCollection ResolveDependencies(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDependencyInjectionConfig(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<LibraryDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("LibraryConnection")));

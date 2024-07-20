@@ -1,5 +1,4 @@
-﻿using FluentValidation.Results;
-using Library.Core.Notification;
+﻿using Library.Core.Notification;
 using Library.Domain.Repositories;
 using Library.Infrastructure.Persistence;
 using Library.Infrastructure.Repositories;
@@ -42,7 +41,17 @@ namespace Library.Infrastructure.UnitOfWork
 
             return success;
         }
-
-        public void Dispose() => _context.Dispose();
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _context.Dispose();
+            }
+        }
     }
 }

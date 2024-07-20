@@ -4,7 +4,7 @@ namespace Library.API.Configuration
 {
     public static class MediatrConfig
     {
-        public static IServiceCollection AddMediatr(this IServiceCollection services)
+        public static IServiceCollection AddMediatrConfig(this IServiceCollection services)
         {
             services.AddMediatR(_ => _.RegisterServicesFromAssembly(typeof(AddBookCommandHandler).Assembly));
 

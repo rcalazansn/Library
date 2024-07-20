@@ -28,7 +28,7 @@ namespace Library.API.Middlewares
         private static async Task HandleExceptionAsync(HttpContext context, Exception exception, ILoggerFactory loggerFactory)
         {
             var exceptionObject = new ExceptionResponse(exception);
-            var exceptionSerialized = JsonConvert.SerializeObject(exceptionObject);
+            var exceptionSerialized = System.Text.Json.JsonSerializer.Serialize(exceptionObject);
 
             if (!context.Response.HasStarted)
             {

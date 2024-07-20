@@ -33,12 +33,12 @@ namespace Library.Core.Infrastructure
 
         public async Task<int> CountAsync(Expression<System.Func<T, bool>> expression)
         {
-            return await _dbSet.CountAsync(expression);
+            return await _dbSet.AsNoTracking().CountAsync(expression);
         }
 
         public async Task<T> FirstAsync(Expression<System.Func<T, bool>> expression)
         {
-            return await _dbSet.FirstOrDefaultAsync(expression);
+            return await _dbSet.AsNoTracking().FirstOrDefaultAsync(expression);
         }
 
         public async Task<T> GetByIdAsync(int id)

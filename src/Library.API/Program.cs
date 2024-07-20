@@ -1,18 +1,21 @@
 using Library.API.Configuration;
-using Microsoft.AspNetCore.Hosting;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Configurations
 builder.Services.AddApiConfig();
-builder.Services.ResolveDependencies(builder.Configuration);
+builder.Services.AddOutputCacheConfig();
+builder.Services.AddProvidersConfig(builder.Configuration);
+builder.Services.AddDependencyInjectionConfig(builder.Configuration);
 builder.Services.AddCorsConfig();
-builder.Services.AddMediatr();
+builder.Services.AddMediatrConfig();
 
 var app = builder.Build();
 
@@ -24,6 +27,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//OutputCache
+app.UseOutputCache();
 
 //Configurations
 app.UseApiConfig();
