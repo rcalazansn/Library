@@ -8,11 +8,13 @@ using Library.Application.Queries.GetBooksById;
 using Library.Core.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using System.Net;
 
 namespace Library.API.Controllers
 {
     [Route("api/[controller]")]
+    [OutputCache] //Default 5 seconds
     public class BooksController : MainController
     {
         private readonly ILogger<BooksController> _logger;

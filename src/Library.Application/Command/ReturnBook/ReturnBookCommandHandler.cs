@@ -1,10 +1,7 @@
 ﻿using Library.Application.Command.AddUser;
 using Library.Application.Notifications.Loan;
-using Library.Application.Notifications.User;
 using Library.Core.Application;
 using Library.Core.Notification;
-using Library.Domain.Models;
-using Library.Domain.Validations;
 using Library.Infrastructure.UnitOfWork;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -67,7 +64,6 @@ namespace Library.Application.Command.ReturnBook
                 $"{request.Id} saved record." +
                 $"ElapsedMilliseconds={watch.ElapsedMilliseconds}"
             );
-
         }
     }
 }
