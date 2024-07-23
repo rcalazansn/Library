@@ -16,9 +16,9 @@ builder.Services.AddProvidersConfig(builder.Configuration);
 builder.Services.AddDependencyInjectionConfig(builder.Configuration);
 builder.Services.AddCorsConfig();
 builder.Services.AddMediatrConfig();
+builder.Services.AddHttpClientConfig();
 
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment())
 {
