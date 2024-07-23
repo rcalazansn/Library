@@ -1,4 +1,6 @@
-﻿namespace Library.API.Configuration
+﻿using Library.Application.Http;
+
+namespace Library.API.Configuration
 {
     public static class ProvidersConfig
     {
@@ -8,16 +10,7 @@
                 .GetSection("Providers")
                 .Get<IEnumerable<Provider>>();
 
-            Console.WriteLine(providers);
+            ProviderBase.AddProviders(providers);
         }
-    }
-
-    public class Provider
-    {
-        public string Name { get; set; }
-        public string BaseAddress { get; set; }
-        public string ApiKey { get; set; }
-        public override string ToString()
-            => $"{Name} - {BaseAddress}";
     }
 }
