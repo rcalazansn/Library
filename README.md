@@ -59,18 +59,10 @@
     - MediatR
     - Swagger UI
 ```        
-- ###### Not Yet (Components / Services)
-    - ~~```Polly```~~
-    - ~~```Bogus```~~
-    - ~~```Dapper```~~
-    - ~~```Bogus```~~
-
-- ###### Hosting
-```sh
-    - IIS
-```        
-- ###### Not Yet (Hosting)
-    - ~~```Docker```~~
+- ~~```Polly```~~
+- ~~```Bogus```~~
+- ~~```Dapper```~~
+- ~~```Bogus```~~
 
 - ###### Architecture:
 ```sh
@@ -84,9 +76,8 @@
     - Repository
     - Unit of Work
 ```        
-- ###### Not Yet (Architecture)
-    - ~~```Retry Pattern```~~
-    - ~~```Circuit Breaker```~~
+- ~~```Retry Pattern```~~
+- ~~```Circuit Breaker```~~
 
 - ###### Plus
 ```sh
