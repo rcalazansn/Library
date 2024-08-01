@@ -1,6 +1,4 @@
-﻿using Library.Application.Command.AddBook;
-
-namespace Library.API.Configuration
+﻿namespace Library.API.Configuration
 {
     public static class OutputCacheConfig
     {

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace Library.Application.Http.ViaCep.HttpClientFactory
 {
@@ -13,9 +12,9 @@ namespace Library.Application.Http.ViaCep.HttpClientFactory
 
         public async Task<ViaCepResponse> GetAddressAsync(string cep)
         {
-            HttpClient client = _httpClientFactory.CreateClient();
+            HttpClient client = _httpClientFactory.CreateClient(typeof(ViaCepClientFactory).Name);
 
-            HttpResponseMessage? response = await client.GetAsync($"/ws/{cep}/json");
+            HttpResponseMessage ? response = await client.GetAsync($"/ws/{cep}/json");
 
             if (response.IsSuccessStatusCode)
             {

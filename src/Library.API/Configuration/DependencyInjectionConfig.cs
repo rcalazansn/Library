@@ -1,4 +1,5 @@
-﻿using Library.Core.Notification;
+﻿using Library.Application.Http.ViaCep.HttpClientFactory;
+using Library.Core.Notification;
 using Library.Domain.Repositories;
 using Library.Infrastructure.Persistence;
 using Library.Infrastructure.Repositories;
@@ -24,6 +25,9 @@ namespace Library.API.Configuration
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ILoanRepository, LoanRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            //Service Http
+            services.AddScoped<IViaCepClientFactory, ViaCepClientFactory>();
 
             return services;
         }
