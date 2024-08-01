@@ -30,70 +30,69 @@
 
 ---
 #### Run
-- ###### Locally
+###### Locally
 ```sh
-    - Visual Studio / VS Code
-    - .Net Core 8
-    - Docker
-    - SQLServer
-    - RabbitMQ
+- Visual Studio / VS Code
+- .Net Core 8
+- Docker
+- SQLServer
+- RabbitMQ
 ```
-- ###### Docker
-    - ~~```docker-compose up```~~
+###### Docker
+- ~~```docker-compose up```~~
 ---
 #### Technologies
 
-- ###### .NET 8
+###### .NET 8
 ```sh
-    - ASP.NET MVC Core
-    - ASP.NET WebApi
-    - Background Services
-    - Entity Framework Core
+- ASP.NET MVC Core
+- ASP.NET WebApi
+- Background Services
+- Entity Framework Core
 ```    
 
-- ###### Components / Services
+###### Components / Services
 ```sh
-    - RabbitMQ
-    - Refit 
-    - FluentValidator
-    - MediatR
-    - Swagger UI
+- RabbitMQ
+- Refit 
+- FluentValidator
+- MediatR
+- Swagger UI
 ```        
 - ~~```Polly```~~
-- ~~```Bogus```~~
 - ~~```Dapper```~~
 - ~~```Bogus```~~
 
-- ###### Architecture:
+###### Architecture:
 ```sh
-    - Clean Code
-    - Clean Architecture
-    - DDD - Domain Driven Design
-    - Domain Events
-    - Domain Notification
-    - Domain Validations
-    - CQRS
-    - Repository
-    - Unit of Work
+- Clean Code
+- Clean Architecture
+- DDD - Domain Driven Design
+- Domain Events
+- Domain Notification
+- Domain Validations
+- CQRS
+- Repository
+- Unit of Work
 ```        
 - ~~```Retry Pattern```~~
 - ~~```Circuit Breaker```~~
 
-- ###### Plus
+###### Plus
 ```sh
-    - Http Client Factory
-    - Output Cache
-    - CORS (FrontEnd)
+- Http Client Factory
+- Output Cache
+- CORS (FrontEnd)
 ```
 
-- ###### Tests
-    - ~~```XUnit```~~
-    - ~~```Bogus```~~
-    - ~~```Mock```~~
-    - ~~```Traits```~~
-    - ~~```Fixtures```~~
-    - ~~```Fluent Assertions```~~
-    - ~~```Coverlet```~~
+###### Tests
+- ~~```XUnit```~~
+- ~~```Bogus```~~
+- ~~```Mock```~~
+- ~~```Traits```~~
+- ~~```Fixtures```~~
+- ~~```Fluent Assertions```~~
+- ~~```Coverlet```~~
 ---
 #### Architecture Overview
 
