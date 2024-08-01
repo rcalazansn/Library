@@ -67,7 +67,6 @@ namespace Library.Application.Queries.ViaCep
             );
             return viaCepModel;
         }
-
         public async Task<ViaCepModel> Handle(GetViaCepByCepClientFactoryQuery request, CancellationToken cancellationToken)
         {
             var watch = Stopwatch.StartNew();

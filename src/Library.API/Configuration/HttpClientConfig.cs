@@ -7,17 +7,13 @@ namespace Library.API.Configuration
     {
         public static IServiceCollection AddHttpClientConfig(this IServiceCollection services)
         {
-          // services.AddHttpClient();
-            services.AddHttpClient<IViaCepClientFactory, ViaCepClientFactory>(client =>
+            services.AddHttpClient(typeof(ViaCepClientFactory).Name , client =>
             {
                 client.BaseAddress = new Uri(ProviderBase.GetUrl("ViaCEP"));
             });
 
            //       .AddPolicyHandler(GetRetryPolicy())
            //.AddPolicyHandler(GetCircuitBreakerPolicy());
-
-
-            services.AddScoped<IViaCepClientFactory, ViaCepClientFactory>();
 
             return services;
         }
