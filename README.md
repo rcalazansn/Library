@@ -28,6 +28,13 @@
 2. http://localhost:15672
 ```
 
+###### K6
+```sh
+1. [install-k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) 
+2. .\Library\test\k6
+3. run the command: k6 run --vus 10 --duration 10s script.js
+```
+
 ---
 #### Run
 ###### Locally
@@ -84,6 +91,7 @@
 - Http Client Factory
 - Output Cache
 - CORS (FrontEnd)
+- Rate Limiter
 ```
 
 ###### Tests

@@ -7,11 +7,13 @@ using Library.Application.Queries.GetLoans;
 using Library.Core.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Net;
 
 namespace Library.API.Controllers
 {
     [Route("api/[controller]")]
+    [EnableRateLimiting("fixed")]
     public class LoansController: MainController
     {
         private readonly ILogger<LoansController> _logger;
