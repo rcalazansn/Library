@@ -27,7 +27,8 @@ namespace Library.Infrastructure.Persistence
                 property.SetColumnType("varchar(100)");
             }
 
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(LibraryDbContext).Assembly);
+
 
             modelBuilder.ToSnakeNames();
         }

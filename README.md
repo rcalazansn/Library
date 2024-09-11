@@ -74,6 +74,7 @@
 - CQRS
 - Repository
 - Unit of Work
+- Soft Delete
 ```        
 - ~~```Retry Pattern```~~
 - ~~```Circuit Breaker```~~

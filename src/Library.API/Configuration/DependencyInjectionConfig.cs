@@ -1,6 +1,7 @@
 ﻿using Library.Application.Http.ViaCep.HttpClientFactory;
 using Library.Core.Notification;
 using Library.Domain.Repositories;
+using Library.Infrastructure.Interceptor;
 using Library.Infrastructure.Persistence;
 using Library.Infrastructure.Repositories;
 using Library.Infrastructure.UnitOfWork;
@@ -12,8 +13,11 @@ namespace Library.API.Configuration
     {
         public static IServiceCollection AddDependencyInjectionConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<LibraryDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("LibraryConnection")));
+            services.AddSingleton<SoftDeleteInterceptor>();
+
+            services.AddDbContext<LibraryDbContext>((sp, options) => options
+                .UseSqlServer(configuration.GetConnectionString("LibraryConnection"))
+                .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>()));
 
             //Core
             services.AddScoped<INotifier, Notifier>();
