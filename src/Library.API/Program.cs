@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 //Configurations
 builder.Services.AddApiConfig();
+builder.Services.AddFixedRate();
 builder.Services.AddOutputCacheConfig();
 builder.Services.AddProvidersConfig(builder.Configuration);
 builder.Services.AddDependencyInjectionConfig(builder.Configuration);
@@ -25,6 +26,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 
