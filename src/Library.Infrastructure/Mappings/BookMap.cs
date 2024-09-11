@@ -34,6 +34,10 @@ namespace Library.Infrastructure.Mappings
                 .WithOne(_ => _.Book)
                 .HasForeignKey(_ => _.BookId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(e => e.IsDeleted);
+
+            builder.HasQueryFilter(e => !e.IsDeleted);
         }
     }
 }

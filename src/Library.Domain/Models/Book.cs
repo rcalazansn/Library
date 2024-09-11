@@ -3,7 +3,7 @@ using Library.Domain.Enum;
 
 namespace Library.Domain.Models
 {
-    public class Book : BaseEntity
+    public class Book : BaseEntity, ISoftDelete
     {
         public Book(string title, string author, string iSBN, int yearOfPublication)
         {
@@ -22,6 +22,8 @@ namespace Library.Domain.Models
         public int YearOfPublication { get; private set; }
         public BookStatusEnum Status { get; private set; }
         public List<Loan> Loans { get; private set; }
+        public DateTime? DeletedAt { get; set; }
+        public bool IsDeleted { get; set; }
         public void Available() => Status = BookStatusEnum.Available;
         public void Lost() => Status = BookStatusEnum.Lost;
         public void Borrowed() => Status = BookStatusEnum.Borrowed;
