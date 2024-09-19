@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Library - built with ASP&period;NET 8</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h3 id="library---built-with-aspnet-8">Library - built with <a href="http://ASP.NET">ASP.NET</a> 8</h3>
+<hr>
+<h4 id="getting-started">Getting Started</h4>
+<h6 id="dotnet">DotNet</h6>
+<pre><code class="language-sh">1. dotnet dev-certs https --clean
+2. dotnet dev-certs https --trust
+</code></pre>
+<h6 id="ef-core">EF Core</h6>
+<pre><code class="language-sh">1. dotnet tool install --global dotnet-ef
+</code></pre>
+<h6 id="sql-server-docker">Sql Server Docker</h6>
+<pre><code class="language-sh">1. docker run --name sqlserver -e <span class="hljs-string">&quot;ACCEPT_EULA=Y&quot;</span> -e <span class="hljs-string">&quot;MSSQL_SA_PASSWORD=1q2w3e4r@#$&quot;</span> -p 1433:1433 -d mcr.microsoft.com/mssql/server
+2. Server=localhost,1433;Database=Library;User ID=sa;Password=1q2w3e4r@<span class="hljs-comment">#$</span>
+2.1. Server=localhost,1433;Database=Library;User ID=sa;Password=1q2w3e4r@<span class="hljs-comment">#$;Trusted_Connection=False; TrustServerCertificate=True;</span>
+</code></pre>
+<h6 id="rabbitmq">RabbitMQ</h6>
+<pre><code class="language-sh">1. docker run -d --hostname rabbit-local --name library-rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=library -e RABBITMQ_DEFAULT_PASS=library!@<span class="hljs-comment"># rabbitmq:3-management</span>
+2. http://localhost:15672
+</code></pre>
+<h6 id="k6">K6</h6>
+<pre><code class="language-sh">1. [install-k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) 
+2. .\Library\<span class="hljs-built_in">test</span>\k6
+3. run the <span class="hljs-built_in">command</span>: k6 run --vus 10 --duration 10s script.js
+</code></pre>
+<hr>
+<h4 id="run">Run</h4>
+<h6 id="locally">Locally</h6>
+<pre><code class="language-sh">- Visual Studio / VS Code
+- .Net Core 8
+- Docker
+- SQLServer
+- RabbitMQ
+</code></pre>
+<h6 id="docker">Docker</h6>
+<ul>
+<li>D:\Github\Library&gt;docker build -t library-api:latest -f .\src\Library.API\Dockerfile .</li>
+<li>docker build -t library-api:latest -f .\src\Library.API\Dockerfile .</li>
+<li><s><code>docker-compose up</code></s></li>
+</ul>
+<hr>
+<h4 id="technologies">Technologies</h4>
+<h6 id="net-8">.NET 8</h6>
+<pre><code class="language-sh">- ASP.NET MVC Core
+- ASP.NET WebApi
+- Background Services
+- Entity Framework Core
+</code></pre>
+<h6 id="components--services">Components / Services</h6>
+<pre><code class="language-sh">- RabbitMQ
+- Refit 
+- FluentValidator
+- MediatR
+- Swagger UI
+</code></pre>
+<ul>
+<li><s><code>Polly</code></s></li>
+<li><s><code>Dapper</code></s></li>
+<li><s><code>Bogus</code></s></li>
+</ul>
+<h6 id="architecture">Architecture:</h6>
+<pre><code class="language-sh">- Clean Code
+- Clean Architecture
+- DDD - Domain Driven Design
+- Domain Events
+- Domain Notification
+- Domain Validations
+- CQRS
+- Repository
+- Unit of Work
+- Soft Delete
+</code></pre>
+<ul>
+<li><s><code>Retry Pattern</code></s></li>
+<li><s><code>Circuit Breaker</code></s></li>
+</ul>
+<h6 id="plus">Plus</h6>
+<pre><code class="language-sh">- Http Client Factory
+- Output Cache
+- CORS (FrontEnd)
+- Rate Limiter
+</code></pre>
+<h6 id="tests">Tests</h6>
+<ul>
+<li><s><code>XUnit</code></s></li>
+<li><s><code>Bogus</code></s></li>
+<li><s><code>Mock</code></s></li>
+<li><s><code>Traits</code></s></li>
+<li><s><code>Fixtures</code></s></li>
+<li><s><code>Fluent Assertions</code></s></li>
+<li><s><code>Coverlet</code></s></li>
+</ul>
+<hr>
+<h4 id="architecture-overview">Architecture Overview</h4>
+<h4 id="about">About</h4>
+<p>developed by <a href="https://rcalazansn.azurewebsites.net">Calazans</a> <img alt="Brasil" src="https://user-images.githubusercontent.com/5068797/161345649-c7184fdc-2bc3-42a9-8fb6-6ffee9c8f9c2.png" width="20" height="14" /></p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
