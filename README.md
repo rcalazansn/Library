@@ -52,7 +52,7 @@
 
 ###### Docker Compose
 - D:\Github\Library\src\Library.API>```docker compose build --no-cache```
-- D:\Github\Library\src\Library.API>```docker-compose up```
+- D:\Github\Library\src\Library.API>```docker compose -p library-docker up```
 - ```http://localhost:7070/swagger/index.html```
 
 ---
