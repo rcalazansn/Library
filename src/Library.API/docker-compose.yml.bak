@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  library-api:
+    image: library-api:latest
+    container_name: library-api
+    restart: always
+    build:
+      context: ../../
+      dockerfile: src/Library.API/Dockerfile
+    ports:
+      - "7070:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__LibraryConnection=Server=localhost,1433;Database=Library;User ID=sa;Password=1q2w3e4r@DO;Trusted_Connection=False; TrustServerCertificate=True;
+    depends_on:
+      - library-api-db
+      - library-api-rabbit
+
+  library-api-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: library-api-db
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "1q2w3e4r@DO"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+
+  library-api-rabbit:
+    image: rabbitmq:3-management
+    container_name: library-api-rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "library"
+      RABBITMQ_DEFAULT_PASS: "library!@#D"
+    
+    

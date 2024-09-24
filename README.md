@@ -46,7 +46,15 @@
 - RabbitMQ
 ```
 ###### Docker
-- ~~```docker-compose up```~~
+- D:\Github\Library> ```docker build --no-cache -t library-api:latest -f .\src\Library.API\Dockerfile .```
+- D:\Github\Library> ```docker run -d -p 9090:80 --name library-api-app library-api:latest```
+- ```http://localhost:9090/swagger/index.html```
+
+###### Docker Compose
+- D:\Github\Library\src\Library.API>```docker compose build --no-cache```
+- D:\Github\Library\src\Library.API>```docker compose -p library-docker up```
+- ```http://localhost:7070/swagger/index.html```
+
 ---
 #### Technologies
 
