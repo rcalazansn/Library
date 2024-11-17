@@ -14,6 +14,7 @@ builder.Services.AddApiConfig();
 builder.Services.AddFixedRate();
 builder.Services.AddOutputCacheConfig();
 builder.Services.AddProvidersConfig(builder.Configuration);
+builder.Services.AddRabbitMqConfig(builder.Configuration);
 builder.Services.AddDependencyInjectionConfig(builder.Configuration);
 builder.Services.AddCorsConfig();
 builder.Services.AddMediatrConfig();

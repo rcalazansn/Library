@@ -13,11 +13,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__LibraryConnection=Server=localhost,1433;Database=Library;User ID=sa;Password=1q2w3e4r@DO;Trusted_Connection=False; TrustServerCertificate=True;
+      - ConnectionStrings__LibraryConnection=Server=library-api-db,1433;Database=LibraryCompose;User ID=sa;Password=1q2w3e4r@DO;Trusted_Connection=False; TrustServerCertificate=True;
+      - RabbitMQ__HostName=library-api-rabbit
+      - RabbitMQ__UserName=library
+      - RabbitMQ__Password=Rabbit!@#
     depends_on:
       - library-api-db
       - library-api-rabbit
-
+  
   library-api-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: library-api-db
@@ -27,6 +30,17 @@ services:
       MSSQL_SA_PASSWORD: "1q2w3e4r@DO"
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Developer"
+      
+  library-api-db-mssqltools:
+    image: mcr.microsoft.com/mssql-tools
+    container_name: library-api-db-mssqltools
+    depends_on:
+      - library-api-db
+    volumes:
+      - ./scripts/00-Library.sql:/tmp/00-Library.sql
+      - ./scripts/01-Library.sql:/tmp/01-Library.sql
+      - ./scripts/init-Library.sh:/tmp/init-Library.sh
+    command: /bin/bash ./tmp/init-Library.sh     
 
   library-api-rabbit:
     image: rabbitmq:3-management
