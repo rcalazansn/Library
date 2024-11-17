@@ -13,8 +13,9 @@ namespace Library.API.Configuration
 
                 options.AddFixedWindowLimiter(policyName: "fixed", options =>
                 {
-                    options.PermitLimit = 5; //max number of requests in a 10 second interval
-                    options.Window = TimeSpan.FromSeconds(10);
+                    options.PermitLimit = 10; //max number of requests in a 10 second interval
+                    options.Window = TimeSpan.FromSeconds(2);
+                    options.QueueLimit = 2; //tolerance after reaching limit
                 });
             });
 

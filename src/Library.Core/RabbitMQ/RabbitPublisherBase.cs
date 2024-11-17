@@ -17,9 +17,9 @@ namespace Library.Core.RabbitMQ
             string serviceName,
             string userName,
             string password,
-            string hostname = "localhost",
-            string virtualHost = "/",
-            int port = 5672
+            string hostname,
+            int port,
+            string virtualHost = "/"
         )
         {
             _serviceName = serviceName;

@@ -11,8 +11,10 @@ namespace Library.Infrastructure.Persistence
           Add-Migration Initial
 		  update-database
 
-          dotnet ef migrations add Initial --startup-project ../Library.API
-          dotnet ef database update --startup-project ../Library.API
+          dotnet ef migrations add Initial -p .\src\Library.API\Library.API.csproj
+          dotnet ef database update -p .\src\Library.API\Library.API.csproj
+
+          dotnet ef migrations script -p .\src\Library.API\Library.API.csproj -o .\src\Library.API\scripts\01-Library.sql -i
          */
         public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; }
