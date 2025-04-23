@@ -41,7 +41,7 @@ namespace Library.Application.Command.RemoveBook
 
             _uow.BookRepository.Remove(book);
 
-            var success = await _uow.CommitAsync(cancellationToken);
+            var success = await _uow.SaveAsync(cancellationToken);
 
             if (!success)
                 return;

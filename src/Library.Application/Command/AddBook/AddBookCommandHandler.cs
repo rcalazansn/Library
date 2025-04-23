@@ -48,7 +48,7 @@ namespace Library.Application.Command.AddBook
 
             _uow.BookRepository.Add(book);
 
-            var success = await _uow.CommitAsync(cancellationToken);
+            var success = await _uow.SaveAsync(cancellationToken);
 
             if (!success)
                 return null;

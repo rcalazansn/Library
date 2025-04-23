@@ -48,7 +48,7 @@ namespace Library.Application.Command.AddUser
 
             _uow.UserRepository.Add(user);
 
-            var success = await _uow.CommitAsync(cancellationToken);
+            var success = await _uow.SaveAsync(cancellationToken);
 
             if (!success)
                 return null;
