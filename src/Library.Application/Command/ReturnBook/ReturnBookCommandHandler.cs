@@ -49,7 +49,7 @@ namespace Library.Application.Command.ReturnBook
 
             await _uow.LoanRepository.ReturnBookAsync(request.Id);
 
-            var success = await _uow.CommitAsync(cancellationToken);
+            var success = await _uow.SaveAsync(cancellationToken);
 
             if (!success)
                 return;

@@ -78,7 +78,7 @@ namespace Library.Application.Command.AddLoan
             _uow.LoanRepository.Add(loan);
             _uow.BookRepository.Update(bookDb);
 
-            var success = await _uow.CommitAsync(cancellationToken);
+            var success = await _uow.SaveAsync(cancellationToken);
 
             if (!success)
                 return null;
